@@ -4,6 +4,10 @@ import { connectMongo, disconnectMongo } from './config/database';
 import { HealthService } from './services/HealthService';
 import { HealthController } from './controllers/HealthController';
 import { createHealthRoutes } from './routes/healthRoutes';
+import { HistoriqueRepository } from './repositories/HistoriqueRepository';
+import { HistoriqueService } from './services/HistoriqueService';
+import { HistoriqueController } from './controllers/HistoriqueController';
+import { createHistoriqueRoutes } from './routes/historiqueRoutes';
 import { errorHandler } from './middlewares/errorHandler';
 import { notFoundHandler } from './middlewares/notFound';
 import { logger } from './utils/logger';
@@ -24,8 +28,13 @@ app.use((req, res, next) => {
 const healthService = new HealthService();
 const healthController = new HealthController(healthService);
 
-// Routes (uniquement healthcheck)
+const historiqueRepository = new HistoriqueRepository();
+const historiqueService = new HistoriqueService(historiqueRepository);
+const historiqueController = new HistoriqueController(historiqueService);
+
+// Routes
 app.use('/', createHealthRoutes(healthController));
+app.use('/api/historiques', createHistoriqueRoutes(historiqueController));
 
 // Gestion des erreurs
 app.use(notFoundHandler);
@@ -38,8 +47,8 @@ async function start(): Promise<void> {
   await connectMongo();
 
   const server = app.listen(PORT, () => {
-    logger.info(`Server is running on port ${PORT}`);
-    logger.info(`Environment: ${config.nodeEnv}`);
+  logger.info(`Server is running on port ${PORT}`);
+  logger.info(`Environment: ${config.nodeEnv}`);
   });
 
   const shutdown = async (): Promise<void> => {
