@@ -1,4 +1,5 @@
 import express, { Express } from 'express';
+import cors from 'cors';
 import { config } from './config/app';
 import { connectMongo, disconnectMongo } from './config/database';
 import { HealthService } from './services/HealthService';
@@ -13,6 +14,9 @@ import { notFoundHandler } from './middlewares/notFound';
 import { logger } from './utils/logger';
 
 const app: Express = express();
+
+// CORS middleware (doit être avant les autres middlewares)
+app.use(cors());
 
 // Middlewares globaux
 app.use(express.json());

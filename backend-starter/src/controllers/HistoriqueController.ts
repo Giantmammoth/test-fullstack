@@ -16,7 +16,7 @@ export class HistoriqueController {
       res.status(500).json({
         success: false,
         message: 'Error fetching historiques',
-        error: error instanceof Error ? error.message : 'Unknown error',
+        // error: error instanceof Error ? error.message : 'Unknown error',
       });
     }
   };
