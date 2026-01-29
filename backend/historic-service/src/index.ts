@@ -38,7 +38,7 @@ const historiqueController = new HistoriqueController(historiqueService);
 
 // Routes
 app.use('/', createHealthRoutes(healthController));
-app.use('/api/historiques', createHistoriqueRoutes(historiqueController));
+app.use('/api/history', createHistoriqueRoutes(historiqueController));
 
 // Gestion des erreurs
 app.use(notFoundHandler);
